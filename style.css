@@ -1,5 +1,5 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #E7DFD4;
@@ -19,6 +19,37 @@ header {
     height: auto;
     float: right;
 }
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: left;
+    height: 100vh; /* Adjust the height as needed */
+    margin-left: 60px;
+    margin-right: 60px;
+    color: #020672;
+  }
+  
+  h1, p {
+    text-align: left;
+  }
+
+
+  #kategorien {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .box {
+    width: 30%;
+    padding: 20px;
+    background-color: lightgray;
+  }
+  
+  button {
+    margin-top: 10px;
+  }
 
 footer {
     background-color: #E7DFD4;
