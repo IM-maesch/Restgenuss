@@ -2,20 +2,22 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    background-color: #E7DFD4;
 }
 
 header {
     background-color: #E7DFD4;
     color: #020672;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     align-items: center;
     padding: 10px 20px;
 }
 
 .logo img {
-    width: 100px; /* Hier kannst du die Breite deines Logos anpassen */
+    width: 200px; /* Hier kannst du die Breite deines Logos anpassen */
     height: auto;
+    float: right;
 }
 
 footer {
