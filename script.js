@@ -12,18 +12,15 @@ async function showCategories() {
     data.forEach(kategorie=>{
     console.log(kategorie); 
     let output=`
-      <div class="box">
+      <button onclick="handleClick(1)" class="box">
         <h2>${kategorie.name}</h2>
-        <p>Content for Box 1</p>
-        <button onclick="handleClick(1)">${kategorie.name}</button>
-      </div>
+      </button>
       `;
     container.innerHTML+=output;
     })   
   }
 };
   
-
 async function showRezepte() {
   const { data, error } = await supa.from("rezepte").select();
   if(data)
@@ -32,11 +29,9 @@ async function showRezepte() {
     data.forEach(rezepte=>{
     console.log(rezepte); 
     let output=`
-      <div class="box">
+      <button onclick="handleClick(1)" class="box">
         <h2>${rezepte.rezeptname}</h2>
-        <p>Content for Box 1</p>
-        <button onclick="handleClick(1)">Button 1</button>
-      </div>
+      </button>
     `;
     container.innerHTML+=output;
     }) 

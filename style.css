@@ -44,11 +44,9 @@ header {
   .box {
     width: 30%;
     padding: 20px;
-    background-color: lightgray;
-  }
-  
-  button {
-    margin-top: 10px;
+    background-color: #EE9C50;
+    border: 0px;
+    margin: 40px;
   }
 
 footer {
