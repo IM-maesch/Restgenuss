@@ -2,8 +2,8 @@ import { supa } from "/supabase.js";
 
 console.log("00 JavaScript verbunden")
 
-// 1. **Alle Filme abrufen**: Hole alle Spalten aller Filme aus der Tabelle `movies`.
 
+//Zeigt alle Kategorien an, soll beim Laden der Startseite ausgeführt werden
 async function showCategories() {
   const { data, error } = await supa.from("kategorien").select();
   if(data)
@@ -20,7 +20,8 @@ async function showCategories() {
     })   
   }
 };
-  
+
+//Zeigt nach dem Ausführen alle Rezepte von jeder Kategorie an
 async function showRezepte() {
   const { data, error } = await supa.from("rezepte").select();
   if(data)
@@ -38,6 +39,13 @@ async function showRezepte() {
   }
 }
 
+
+//Beim Klick auf die Kategorie sollen alle Rezepte der Kategorie angezeigt werden.
+//Javascript holt die ID des Buttons in HTML
+document.getElementById("demo").onclick = function() {myFunction()};
+
+function myFunction() {
+  document.getElementById("rezeptVorschlag").innerHTML = ${kategorie_id}""; //Hier sollten nun alle Rezepte der jeweiligen Kategorie angezeigt werden
 
   
 /*
