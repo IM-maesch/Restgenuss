@@ -12,7 +12,7 @@ async function showCategories() {
     data.forEach(kategorie=>{
     console.log(kategorie); 
     let output=`
-      <button onclick="handleClick(1)" class="box">
+      <button class="box kategorie-button" id="Kategorie-id-${kategorie.id}">
         <h2>${kategorie.name}</h2>
       </button>
       `;
@@ -30,7 +30,7 @@ async function showRezepte() {
     data.forEach(rezepte=>{
     console.log(rezepte); 
     let output=`
-      <button onclick="handleClick(1)" class="box">
+      <button class="box">
         <h2>${rezepte.rezeptname}</h2>
       </button>
     `;
@@ -40,17 +40,22 @@ async function showRezepte() {
 }
 
 
+
+
 //Beim Klick auf die Kategorie sollen alle Rezepte der Kategorie angezeigt werden.
 //Javascript holt die ID des Buttons in HTML
-document.getElementById("demo").onclick = function() {myFunction()};
+//document.getElementById("demo").onclick = function() {myFunction()};
 
 function myFunction() {
-  document.getElementById("rezeptVorschlag").innerHTML = ${kategorie_id}""; //Hier sollten nun alle Rezepte der jeweiligen Kategorie angezeigt werden
+  //document.getElementById("rezeptVorschlag").innerHTML = ${kategorie_id}"; //Hier sollten nun alle Rezepte der jeweiligen Kategorie angezeigt werden
 
-  
+}
 /*
 return data;
 */
 
+
+//Aufruf der beiden weiter oben definierten Funktionen
 console.log(showCategories());
 console.log(showRezepte());
+
