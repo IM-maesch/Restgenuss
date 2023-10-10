@@ -75,6 +75,7 @@ header {
     border: 20px;
     margin: 10px;
     justify-content: center;
+    cursor: pointer;
   }
 
 footer {
