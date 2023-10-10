@@ -1,7 +1,7 @@
 body {
     font-family: Arial, Helvetica, sans-serif;
     margin: 0;
-    padding: 0;
+    padding: 70px;
     background-color: #E7DFD4;
 }
 
@@ -26,27 +26,55 @@ header {
     align-items: left;
     justify-content: left;
     height: 100vh; /* Adjust the height as needed */
-    margin-left: 60px;
-    margin-right: 60px;
     color: #020672;
+    margin-bottom: -300px;
+    padding: 10px;
+  }
+  .content p {
+    text-align: justify;
   }
   
   h1, p {
     text-align: left;
   }
 
-
+/*
   #kategorien {
     display: flex;
     justify-content: space-between;
   }
-  
+
+  #rezeptVorschlag {
+    margin:px;
+    padding: px;
+    flex-direction: column;
+    align-items: left;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: left;
+    justify-content: center;
+  }
+  */
+
+  .kategorien-rezeptVorschlag-design{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+
   .box {
     width: 30%;
-    padding: 20px;
+    height: 300px;
+    padding: 10px;
     background-color: #EE9C50;
-    border: 0px;
-    margin: 40px;
+    border: 20px;
+    margin: 10px;
+    justify-content: center;
   }
 
 footer {
@@ -59,7 +87,7 @@ footer {
 footer a {
     text-decoration: none;
     color: #020672;
-    margin: 0 10px;
+    margin: 10px;
 }
 
 /* Optional: Stil für die Hover-Zustände der Links */
