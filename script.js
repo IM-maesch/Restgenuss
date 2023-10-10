@@ -7,6 +7,7 @@ console.log("00 JavaScript verbunden")
 async function showCategories() {
   const { data, error } = await supa.from("kategorien").select();
   if (data) {
+    console.log(data);
     let container = document.querySelector("#kategorien");
     data.forEach(kategorie => {
       let output = `
@@ -15,34 +16,44 @@ async function showCategories() {
         </button>
       `;
       container.innerHTML += output;
-      
-      // Füge einen Event-Listener hinzu
-      const button = document.querySelector(`#Kategorie-id-${kategorie.id}`);
-      button.addEventListener("click", () => {
-        console.log(`Angeklicktes Element ID: ${kategorie.id}`);
-      });
+
     });
   }
 }
 
 
-//Zeigt nach dem Ausführen alle Rezepte von jeder Kategorie an
-async function showRezepte() {
-  const { data, error } = await supa.from("rezepte").select();
-  if(data)
-  {
-    let container= document.querySelector("#rezeptVorschlag");
-    data.forEach(rezepte=>{
-    console.log(rezepte); 
-    let output=`
-      <button class="box">
-        <h2>${rezepte.rezeptname}</h2>
-      </button>
-    `;
-    container.innerHTML+=output;
-    }) 
+// Add an event listener for button clicks
+document.querySelector("#kategorien").addEventListener("click", function(event) {
+  const clickedButton = event.target;
+  if (clickedButton.classList.contains("kategorie-button")) {
+    const kategorie_id = clickedButton.id.split("-")[2];
+    // Call a function to display recipes based on kategorie_id
+    displayRecipesByCategory(kategorie_id);
+    console.log(kategorie_id);
+  }
+});
+
+// Function to display recipes for a specific category
+async function displayRecipesByCategory(kategorie_id) {
+  const { data, error } = await supa
+    .from("rezepte")
+    .select()
+    .eq("kategorie_id", kategorie_id);
+  
+  if (data) {
+    let container = document.querySelector("#rezeptVorschlag");
+    container.innerHTML = ""; // Clear previous content
+    data.forEach(rezepte => {
+      let output = `
+        <button class="box">
+          <h2>${rezepte.rezeptname}</h2>
+        </button>
+      `;
+      container.innerHTML += output;
+    });
   }
 }
+
 
 
 
