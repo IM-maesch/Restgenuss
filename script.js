@@ -75,3 +75,14 @@ return data;
 console.log(showCategories());
 console.log(showRezepte());
 
+/* Sternen Bewertung bei Rezeptseite*/
+
+const ratingInputs = document.querySelectorAll('input[name="rating"]');
+let userRating;
+
+ratingInputs.forEach(input => {
+  input.addEventListener('change', (event) => {
+    userRating = event.target.value;
+    console.log(`Bewertung: ${userRating}`);
+  });
+});
