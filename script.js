@@ -102,22 +102,25 @@ async function populateRecipeContent(recipeId) {
 
     // Update the unordered list for ingredients
     const ingredientsList = document.querySelector("ul");
-    ingredientsList.innerHTML = "";
 
+    // Fetch related zutaten based on recipe ID from the "relationstabelle"
     const relatedZutaten = await supa
       .from("relationstabelle")
       .select("zutaten_id")
       .eq("rezept_id", recipeId);
 
     if (relatedZutaten.data) {
-      relatedZutaten.data.forEach(({ zutaten_id }) => {
-        const zutat = supa.from("zutaten").select("zutat_name").eq("id", zutaten_id);
-        if (zutat.data) {
+      for (const { zutaten_id } of relatedZutaten.data) {
+        // Fetch the zutat_name for each zutaten_id
+        const zutatData = await supa.from("zutaten").select("zutat_name").eq("id", zutaten_id);
+
+        if (zutatData.data && zutatData.data.length > 0) {
+          const zutatName = zutatData.data[0].zutat_name;
           const liElement = document.createElement("li");
-          liElement.textContent = zutat.data[0].zutat_name;
+          liElement.textContent = zutatName;
           ingredientsList.appendChild(liElement);
         }
-      });
+      }
     }
 
     // Update the p tag with the recipe anleitung
