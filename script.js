@@ -92,15 +92,15 @@ async function populateRecipeContent(recipeId) {
   if (data && data.length > 0) {
     const recipe = data[0];
 
-    // Update the h1 tag with the rezeptname
+    // rezepte.rezeptname einfüllen in h1-Tag
     document.querySelector("h1").textContent = recipe.rezeptname;
 
-    // Update the img src with the bild
+    // Einfüllen der Bild-URL als source ins img-Tag
     const imgElement = document.querySelector("img");
     imgElement.src = recipe.bild;
     imgElement.alt = "Beschreibung für das Bild (Bildquelle)";
 
-    // Update the unordered list for ingredients
+    // Liste updaten mit den Zutaten
     const ingredientsList = document.querySelector("ul");
 
     // Fetch related zutaten based on recipe ID from the "relationstabelle"
@@ -112,10 +112,10 @@ async function populateRecipeContent(recipeId) {
     if (relatedZutaten.data) {
       for (const { zutaten_id } of relatedZutaten.data) {
         // Fetch the zutat_name for each zutaten_id
-        const zutatData = await supa.from("zutaten").select("zutat_name").eq("id", zutaten_id);
-
+        const zutatData = await supa.from("zutaten").select("zutat_Name").eq("id", zutaten_id);
+console.log(zutatData);
         if (zutatData.data && zutatData.data.length > 0) {
-          const zutatName = zutatData.data[0].zutat_name;
+          const zutatName = zutatData.data[0].zutat_Name;
           const liElement = document.createElement("li");
           liElement.textContent = zutatName;
           ingredientsList.appendChild(liElement);
@@ -123,7 +123,7 @@ async function populateRecipeContent(recipeId) {
       }
     }
 
-    // Update the p tag with the recipe anleitung
+    // Rezept.Anleitung in p-Tag anzeigen
     document.querySelector("p").textContent = recipe.anleitung;
   } else {
     console.error("Recipe not found.");
