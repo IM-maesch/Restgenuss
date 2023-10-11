@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Rezepte</title>
-        <script src="https://unpkg.com/@supabase/supabase-js@2"> </script>
-        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1.29.0/dist/umd/supabase.min.js"></script>
-        <link rel="stylesheet" href="style.css">
+<html lang="de">
 
-    </head>
-    <body>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rezepte</title>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"> </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1.29.0/dist/umd/supabase.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+
         <!--Diese Seite soll das Grundgerüst sein für alle Rezeptzseiten,
         die man über eine individuelle URL aufrufen kann. Der Plan ist, dass
         bei einem Klick auf den jeweiligen Rezeptbutton die neue Seite mit
@@ -20,6 +20,60 @@
         das entsprechende Rezept geladen wird.
         Sorry mein Kopf ist gerade ganz nöimen anders und die Erklärung da
         oben ergibt nicht zwingend Sinn, danke fürs Verständnis.-->
-    </body>
+
+</head>
+
+<body>
+        <header>
+            <div class="logo">
+                <img src="img/logo.png" alt="Logo">
+            </div>    
+        </header>
+
+        <div class="content">
+            <h1>Rezeptname</h1>
+            <p>Kurze Beschreibung über das Rezept. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+        </div>
+        <img src="bildquelle.jpg" alt="Beschreibung für das Bild (Bildquelle)">
+        
+        
+            <div class="content">
+            <ul>
+                <li>Zutat 1</li>
+                <li>Zutat 2</li>
+                <li>Zutat 3</li>
+                <li>Zutat 4</li>
+                <li>Zutat 5</li>
+            </ul>
+        
+            <p>Erklärung für die Rezeptzubereitung. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</p>
+           
+            <h2>Wie fandest du das Rezept?</h2>
+        </div>
+
+        <div class="bewertung">
+            <input type="radio" id="star5" name="rating" value="5"><label for="star5"></label>
+            <input type="radio" id="star4" name="rating" value="4"><label for="star4"></label>
+            <input type="radio" id="star3" name="rating" value="3"><label for="star3"></label>
+            <input type="radio" id="star2" name="rating" value="2"><label for="star2"></label>
+            <input type="radio" id="star1" name="rating" value="1"><label for="star1"></label>
+          </div>
+          
+
+
+        <footer class="footer">
+            <nav>
+                <ul>
+                    <li><a href="#">Impressum</a></li>
+                    <li><a href="#">Kontakt</a></li>
+                    <li><a href="#">Datenschutz</a></li>
+                </ul>
+            </nav>
+        </footer>
+
+<script type="module" src="supabase.js"></script>
+<script type="module" src="script.js"></script>
+
+</body>
 
 </html>

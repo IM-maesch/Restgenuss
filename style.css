@@ -1,7 +1,8 @@
+/*
 body {
     font-family: Arial, Helvetica, sans-serif;
     margin: 0;
-    padding: 70px;
+    padding: 0px;
     background-color: #E7DFD4;
 }
 
@@ -15,9 +16,12 @@ header {
 }
 
 .logo img {
-    width: 200px; /* Hier kannst du die Breite deines Logos anpassen */
+    width: 200px; /* Hier kannst du die Breite deines Logos anpassen 
     height: auto;
     float: right;
+    margin-top: -70px;
+    margin-right: -25px;
+
 }
 
 .content {
@@ -25,10 +29,13 @@ header {
     flex-direction: column;
     align-items: left;
     justify-content: left;
-    height: 100vh; /* Adjust the height as needed */
+    height: 100vh; /* Adjust the height as needed 
     color: #020672;
     margin-bottom: -300px;
     padding: 10px;
+    margin-top: -40px;
+    margin-right: 25px;
+    margin-left: 25px;
   }
   .content p {
     text-align: justify;
@@ -36,6 +43,11 @@ header {
   
   h1, p {
     text-align: left;
+    margin-top: 20px;;
+  }
+
+  h2 {
+    margin-top: 60px;;
   }
 
 /*
@@ -55,7 +67,7 @@ header {
     align-items: left;
     justify-content: center;
   }
-  */
+  
 
   .kategorien-rezeptVorschlag-design{
     display: flex;
@@ -70,12 +82,13 @@ header {
   .box {
     width: 30%;
     height: 300px;
-    padding: 10px;
+    padding: 1%;
     background-color: #EE9C50;
     border: 20px;
     margin: 10px;
     justify-content: center;
     cursor: pointer;
+    margin-top: -40px;
   }
 
 footer {
@@ -91,7 +104,142 @@ footer a {
     margin: 10px;
 }
 
-/* Optional: Stil für die Hover-Zustände der Links */
+/* Optional: Stil für die Hover-Zustände der Links
 footer a:hover {
     text-decoration: underline;
 }
+*/
+
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0px;
+  padding: 50px;
+  background-color: #E7DFD4;
+}
+
+header {
+  background-color: #E7DFD4;
+  color: #020672;
+  padding: 10px 20px;
+  text-align: right;
+}
+
+.logo img {
+  width: 200px;
+  height: auto;
+}
+
+.content {
+  padding: 20px;
+  color: #2B4A28;
+  margin-left: -10px;
+  margin-right: -10px;
+}
+
+h1 {
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+p {
+  font-size: 1em;
+  text-align: justify;
+}
+
+h2 {
+  margin-top: 20px;
+}
+
+#titel-resteRezepte {
+  margin-top: 40px;
+}
+
+.kategorien-rezeptVorschlag-design {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.box {
+  width: calc(33.33% - 20px);
+  height: 200px;
+  margin: 10px;
+  background-color: #EE9C50;
+  cursor: pointer;
+  border: none;
+}
+
+.box:hover {
+  background-color: #E98223;
+}
+
+
+/*Einzelne Rezeptseite*/
+
+.bewertung {
+  display: flex;
+  align-items: left;
+}
+
+.bewertung input {
+  display: none;
+}
+
+.bewertung label {
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  background-color: #2B4A28;
+  border-radius: 50%;
+  margin: 5px;
+}
+
+.bewertung label:before {
+  content: "\2605";
+  font-size: 24px;
+  display: block;
+  text-align: center;
+  line-height: 30px;
+  color: #E7DFD4;
+  transition: color 0.2s;
+}
+
+.bewertung input:checked + label {
+  background-color: #f1c40f;
+}
+
+.bewertung input:checked + label:before {
+  color: #E7DFD4;
+}
+
+
+footer {
+  background-color: #2B4A28;
+  color: #E7DFD4;
+  padding: 20px;
+  text-align: center;
+}
+
+footer a {
+  text-decoration: none;
+  color: #E7DFD4;
+  margin: 60px;
+}
+
+footer li {
+  display: inline-block;
+  
+}
+
+/* Media queries for responsive design */
+@media (max-width: 768px) {
+  .box {
+    width: calc(55% - 20px);
+    height: calc(50% - 20px);
+  }
+  .logo img {
+    width: 150px;
+  }
+  }
+
