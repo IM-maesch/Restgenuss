@@ -79,3 +79,61 @@ function rezeptAufrufen(recipeId) {
 
 // Ruft die kategorienAnzeigen-Funktion auf, wenn die Seite geladen wird
 document.addEventListener("DOMContentLoaded", kategorienAnzeigen);
+
+
+
+
+
+//-------------Generieren der Inhalte auf der Rezeptseite----------
+// Function to populate the recipe content based on the recipeId
+async function populateRecipeContent(recipeId) {
+  const { data, error } = await supa.from("rezepte").select().eq("id", recipeId);
+
+  if (data && data.length > 0) {
+    const recipe = data[0];
+
+    // Update the h1 tag with the rezeptname
+    document.querySelector("h1").textContent = recipe.rezeptname;
+
+    // Update the img src with the bild
+    const imgElement = document.querySelector("img");
+    imgElement.src = recipe.bild;
+    imgElement.alt = "Beschreibung für das Bild (Bildquelle)";
+
+    // Update the unordered list for ingredients
+    const ingredientsList = document.querySelector("ul");
+    ingredientsList.innerHTML = "";
+
+    const relatedZutaten = await supa
+      .from("relationstabelle")
+      .select("zutaten_id")
+      .eq("rezept_id", recipeId);
+
+    if (relatedZutaten.data) {
+      relatedZutaten.data.forEach(({ zutaten_id }) => {
+        const zutat = supa.from("zutaten").select("zutat_name").eq("id", zutaten_id);
+        if (zutat.data) {
+          const liElement = document.createElement("li");
+          liElement.textContent = zutat.data[0].zutat_name;
+          ingredientsList.appendChild(liElement);
+        }
+      });
+    }
+
+    // Update the p tag with the recipe anleitung
+    document.querySelector("p").textContent = recipe.anleitung;
+  } else {
+    console.error("Recipe not found.");
+  }
+}
+
+// Get the URL parameter "id" to determine which recipe to display
+const urlParams = new URLSearchParams(window.location.search);
+const recipeId = urlParams.get("id");
+
+// Call the function to populate the content when the page loads
+document.addEventListener("DOMContentLoaded", () => {
+  if (recipeId) {
+    populateRecipeContent(recipeId);
+  }
+});
