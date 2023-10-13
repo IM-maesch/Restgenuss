@@ -126,11 +126,11 @@ console.log(zutatData);
     // Rezept.Anleitung in p-Tag anzeigen
     document.querySelector("p").textContent = recipe.anleitung;
   } else {
-    console.error("Recipe not found.");
+    console.error("Rezept wurde nicht gefunden.");
   }
 }
 
-// Get the URL parameter "id" to determine which recipe to display
+// Holt die ID aus der URL, um das richtige Rezept anzuzeigen
 const urlParams = new URLSearchParams(window.location.search);
 const recipeId = urlParams.get("id");
 
