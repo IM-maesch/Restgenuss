@@ -160,6 +160,7 @@ p {
 
 h2 {
   margin-top: 20px;
+  color: white;
 }
 
 #titel-resteRezepte {
@@ -176,9 +177,11 @@ h2 {
   width: calc(33.33% - 20px);
   height: 200px;
   margin: 10px;
-  background-color: #EE9C50;
   cursor: pointer;
+  background-color: #EE9C50;
   border: none;
+  background-size: cover; /* Ensure the background image covers the button */
+  background-position: center; /* Center the background image */
 }
 
 .box:hover {
@@ -258,12 +261,12 @@ footer li {
 
 /* Media queries for responsive design */
 @media (max-width: 768px) {
-  .box {
-    width: calc(55% - 20px);
-    height: calc(50% - 20px);
-  }
-  .logo img {
-    width: 150px;
-  }
+    .box {
+      width: calc(55% - 20px);
+      height: calc(50% - 20px);
+    }
+    .logo img {
+      width: 150px;
+    }
   }
 

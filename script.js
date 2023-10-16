@@ -47,7 +47,16 @@ async function rezepteDerKategorieAnzeigen(kategorie_id) {
       let button = document.createElement("button");
       button.className = "box";
       button.setAttribute("data-recipe-id", rezepte.id);
-      button.innerHTML = `<h2>${rezepte.rezeptname}</h2>`;
+      
+      // Set the background image for the button
+      button.style.backgroundImage = `url(${rezepte.bild})`;
+
+      // Create an <h2> tag for the recipe name and set its text content
+      let h2 = document.createElement("h2");
+      h2.textContent = rezepte.rezeptname;
+      
+      // Append the <h2> tag to the button
+      button.appendChild(h2);
 
       // Fügt einen Klick-Ereignislistener zu jedem Rezept-Button hinzu
       button.addEventListener("click", () => {
@@ -59,7 +68,7 @@ async function rezepteDerKategorieAnzeigen(kategorie_id) {
 
     // Fügt den "Zurück zur Auswahl" Text hinzu
     let zurueckText = document.createElement("p");
-    zurueckText.className = "zurueck-text";
+    zurzueckText.className = "zurueck-text";
     zurueckText.innerHTML = "Zurück zur Auswahl";
     zurueckText.addEventListener("click", () => {
       kategorienAnzeigen();
@@ -71,6 +80,8 @@ async function rezepteDerKategorieAnzeigen(kategorie_id) {
     container.appendChild(zurueckText);
   }
 }
+
+
 
 // Funktion zum Weiterleiten zur Rezeptseite basierend auf rezepte.id
 function rezeptAufrufen(recipeId) {
