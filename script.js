@@ -82,7 +82,6 @@ document.addEventListener("DOMContentLoaded", kategorienAnzeigen);
 
 //-------------Generieren der Inhalte auf der Rezeptseite----------
 // Function to populate the recipe content based on the recipeId
-// Function to populate the recipe content based on the recipeId
 async function populateRecipeContent(recipeId) {
   const { data, error } = await supa.from("rezepte").select().eq("id", recipeId);
 
@@ -128,9 +127,10 @@ async function populateRecipeContent(recipeId) {
   }
 }
 
-
 // Call the function to populate the content when the page loads
 document.addEventListener("DOMContentLoaded", () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const recipeId = urlParams.get("id");
   if (recipeId) {
     populateRecipeContent(recipeId);
   }
