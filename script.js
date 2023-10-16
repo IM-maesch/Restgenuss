@@ -98,27 +98,28 @@ document.addEventListener("DOMContentLoaded", kategorienAnzeigen);
 
 // Funktion, um eine zufällige Rezept-ID zu erhalten
 async function getRandomRecipeId() {
-  // Alle gültigen Rezept-IDs aus der "rezepte"-Tabelle abrufen
+  // Fetch all valid recipe IDs from the "rezepte" table
   const { data: allRecipeIds, error: recipeIdsError } = await supa
     .from("rezepte")
     .select("id")
     .order("id");
 
   if (recipeIdsError) {
-    console.error("Fehler beim Abrufen der Rezept-IDs:", recipeIdsError);
+    console.error("Error fetching recipe IDs:", recipeIdsError);
     return null;
   }
 
   if (allRecipeIds && allRecipeIds.length > 0) {
-    // Einen zufälligen Index innerhalb des gültigen Bereichs generieren
+    // Generate a random index within the valid range
     const randomIndex = Math.floor(Math.random() * allRecipeIds.length);
 
-    // Die Rezept-ID, die dem zufälligen Index entspricht, abrufen
+    // Retrieve the recipe ID corresponding to the random index
     return allRecipeIds[randomIndex].id;
   }
 
   return null;
 }
+
 
 // Funktion, um zufällige Rezept-Buttons anzuzeigen
 
