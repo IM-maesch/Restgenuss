@@ -128,9 +128,25 @@ header {
   text-align: right;
 }
 
+.container {
+  width: 1400px; /* Breite des Containers */
+  height: auto; /* Höhe des Containers */
+  margin: 50px auto; /* Horizontale Zentrierung und individuelle Abstände oben/unten */
+  padding: 0px 20px; /* Individuelle Abstände rechts/links oben/unten */
+}
+
+
 .logo img {
   width: 200px;
   height: auto;
+}
+
+#rezeptBild {
+  width: 1300px;
+  height: 500px;
+  object-fit: cover;
+  object-position: center center;
+  position: center;
 }
 
 .content {
