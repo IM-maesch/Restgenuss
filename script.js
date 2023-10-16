@@ -82,22 +82,24 @@ document.addEventListener("DOMContentLoaded", kategorienAnzeigen);
 
 //-------------Generieren der Inhalte auf der Rezeptseite----------
 // Function to populate the recipe content based on the recipeId
+// Function to populate the recipe content based on the recipeId
 async function populateRecipeContent(recipeId) {
   const { data, error } = await supa.from("rezepte").select().eq("id", recipeId);
 
   if (data && data.length > 0) {
     const recipe = data[0];
 
-    // rezepte.rezeptname einfüllen in h1-Tag
+    // Rezeptname einfüllen in h1-Tag
     document.querySelector("h1").textContent = recipe.rezeptname;
 
-    // Einfüllen der Bild-URL als source ins img-Tag mit id "rezeptBild"
-    const imgElement = document.getElementById("rezeptBild");
+    // Bild-URL als source ins img-Tag (mit ID "rezeptBild") einfüllen
+    const imgElement = document.querySelector("#rezeptBild"); // Update with the ID of the correct img tag
     imgElement.src = recipe.bild;
     imgElement.alt = "Beschreibung für das Bild (Bildquelle)";
 
-    // Liste updaten mit den Zutaten
-    const ingredientsList = document.querySelector("ul");
+    // Leert die Liste der Zutaten (mit ID "zutaten-liste")
+    const ingredientsList = document.querySelector("#zutaten-liste");
+    ingredientsList.innerHTML = '';
 
     // Fetch related zutaten based on recipe ID from the "relationstabelle"
     const relatedZutaten = await supa
@@ -109,28 +111,23 @@ async function populateRecipeContent(recipeId) {
       for (const { zutaten_id } of relatedZutaten.data) {
         // Fetch the zutat_name for each zutaten_id
         const zutatData = await supa.from("zutaten").select("zutat_Name").eq("id", zutaten_id);
-        console.log(zutatData);
 
         if (zutatData.data && zutatData.data.length > 0) {
           const zutatName = zutatData.data[0].zutat_Name;
           const liElement = document.createElement("li");
-          liElement.textContent = zutat
           liElement.textContent = zutatName;
           ingredientsList.appendChild(liElement);
         }
       }
     }
 
-    // Rezept.Anleitung in p-Tag anzeigen
+    // Rezeptanleitung in p-Tag einfüllen
     document.querySelector("p").textContent = recipe.anleitung;
   } else {
     console.error("Rezept wurde nicht gefunden.");
   }
 }
 
-// Holt die ID aus der URL, um das richtige Rezept anzuzeigen
-const urlParams = new URLSearchParams(window.location.search);
-const recipeId = urlParams.get("id");
 
 // Call the function to populate the content when the page loads
 document.addEventListener("DOMContentLoaded", () => {
