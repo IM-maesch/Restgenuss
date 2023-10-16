@@ -59,7 +59,7 @@ async function rezepteDerKategorieAnzeigen(kategorie_id) {
 
     // Fügt den "Zurück zur Auswahl" Text hinzu
     let zurueckText = document.createElement("p");
-    zurrückText.className = "zurueck-text";
+    zurueckText.className = "zurueck-text";
     zurueckText.innerHTML = "Zurück zur Auswahl";
     zurueckText.addEventListener("click", () => {
       kategorienAnzeigen();
@@ -77,7 +77,11 @@ function rezeptAufrufen(recipeId) {
   window.location.href = `rezept.html?id=${recipeId}`;
 }
 
+// Ruft die kategorienAnzeigen-Funktion auf, wenn die Seite geladen wird
+document.addEventListener("DOMContentLoaded", kategorienAnzeigen);
+
 //-------------Generieren der Inhalte auf der Rezeptseite----------
+// Function to populate the recipe content based on the recipeId
 // Function to populate the recipe content based on the recipeId
 async function populateRecipeContent(recipeId) {
   const { data, error } = await supa.from("rezepte").select().eq("id", recipeId);
@@ -89,7 +93,7 @@ async function populateRecipeContent(recipeId) {
     document.querySelector("h1").textContent = recipe.rezeptname;
 
     // Bild-URL als source ins img-Tag (mit ID "rezeptBild") einfüllen
-    const imgElement = document.querySelector("#rezeptBild");
+    const imgElement = document.querySelector("#rezeptBild"); // Update with the ID of the correct img tag
     imgElement.src = recipe.bild;
     imgElement.alt = "Beschreibung für das Bild (Bildquelle)";
 
@@ -124,10 +128,9 @@ async function populateRecipeContent(recipeId) {
   }
 }
 
+
 // Call the function to populate the content when the page loads
 document.addEventListener("DOMContentLoaded", () => {
-  const urlParams = new URLSearchParams(window.location.search);
-  const recipeId = urlParams.get("id");
   if (recipeId) {
     populateRecipeContent(recipeId);
   }
