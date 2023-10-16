@@ -80,10 +80,6 @@ function rezeptAufrufen(recipeId) {
 // Ruft die kategorienAnzeigen-Funktion auf, wenn die Seite geladen wird
 document.addEventListener("DOMContentLoaded", kategorienAnzeigen);
 
-
-
-
-
 //-------------Generieren der Inhalte auf der Rezeptseite----------
 // Function to populate the recipe content based on the recipeId
 async function populateRecipeContent(recipeId) {
@@ -95,8 +91,8 @@ async function populateRecipeContent(recipeId) {
     // rezepte.rezeptname einfüllen in h1-Tag
     document.querySelector("h1").textContent = recipe.rezeptname;
 
-    // Einfüllen der Bild-URL als source ins img-Tag
-    const imgElement = document.querySelector("img");
+    // Einfüllen der Bild-URL als source ins img-Tag mit id "rezeptBild"
+    const imgElement = document.getElementById("rezeptBild");
     imgElement.src = recipe.bild;
     imgElement.alt = "Beschreibung für das Bild (Bildquelle)";
 
@@ -113,10 +109,12 @@ async function populateRecipeContent(recipeId) {
       for (const { zutaten_id } of relatedZutaten.data) {
         // Fetch the zutat_name for each zutaten_id
         const zutatData = await supa.from("zutaten").select("zutat_Name").eq("id", zutaten_id);
-console.log(zutatData);
+        console.log(zutatData);
+
         if (zutatData.data && zutatData.data.length > 0) {
           const zutatName = zutatData.data[0].zutat_Name;
           const liElement = document.createElement("li");
+          liElement.textContent = zutat
           liElement.textContent = zutatName;
           ingredientsList.appendChild(liElement);
         }
