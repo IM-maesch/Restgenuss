@@ -80,7 +80,81 @@ function rezeptAufrufen(recipeId) {
 // Ruft die kategorienAnzeigen-Funktion auf, wenn die Seite geladen wird
 document.addEventListener("DOMContentLoaded", kategorienAnzeigen);
 
+
+
+
+//-------------Anzeigen von zufälligen Rezepten auf der Startseite----------
+
+// Funktion, um eine zufällige Rezept-ID zu erhalten
+async function getRandomRecipeId() {
+  // Alle gültigen Rezept-IDs aus der "rezepte"-Tabelle abrufen
+  const { data: allRecipeIds, error: recipeIdsError } = await supa
+    .from("rezepte")
+    .select("id")
+    .order("id");
+
+  if (recipeIdsError) {
+    console.error("Fehler beim Abrufen der Rezept-IDs:", recipeIdsError);
+    return null;
+  }
+
+  if (allRecipeIds && allRecipeIds.length > 0) {
+    // Einen zufälligen Index innerhalb des gültigen Bereichs generieren
+    const randomIndex = Math.floor(Math.random() * allRecipeIds.length);
+
+    // Die Rezept-ID, die dem zufälligen Index entspricht, abrufen
+    return allRecipeIds[randomIndex].id;
+  }
+
+  return null;
+}
+
+// Funktion, um zufällige Rezept-Buttons anzuzeigen
+// Funktion, um zufällige Rezept-Buttons anzuzeigen
+async function displayRandomRecipeButtons() {
+  const rezeptVorschlag = document.querySelector("#rezeptVorschlag");
+
+  for (let i = 0; i < 6; i++) {
+    // Eine zufällige Rezept-ID aus der Datenbank abrufen
+    const randomRecipeId = await getRandomRecipeId();
+
+    if (randomRecipeId) {
+      // Jetzt, da Sie eine zufällige Rezept-ID haben, können Sie die vollständigen Rezeptinformationen damit abrufen
+      const { data: randomRecipe, error: randomRecipeError } = await supa
+        .from("rezepte")
+        .select()
+        .eq("id", randomRecipeId);
+
+      if (!randomRecipeError && randomRecipe && randomRecipe.length > 0) {
+        const recipe = randomRecipe[0];
+        const button = document.createElement("button");
+        button.className = "box recipe-button";
+        button.setAttribute("data-recipe-id", recipe.id);
+        button.innerHTML = `<h2>${recipe.rezeptname}</h2>`;
+
+        // Ereignislistener, um das Rezept zu öffnen, wenn es angeklickt wird
+        button.addEventListener("click", () => {
+          rezeptAufrufen(recipe.id);
+        });
+
+        rezeptVorschlag.appendChild(button);
+      }
+    }
+  }
+}
+
+// Funktion aufrufen, die beim Laden der Seite 6 zufällige Rezept-Buttons anzeigt
+document.addEventListener("DOMContentLoaded", () => {
+  displayRandomRecipeButtons();
+});
+
+
+
+
+
+
 //-------------Generieren der Inhalte auf der Rezeptseite----------
+
 // Function to populate the recipe content based on the recipeId
 async function populateRecipeContent(recipeId) {
   const { data, error } = await supa.from("rezepte").select().eq("id", recipeId);
