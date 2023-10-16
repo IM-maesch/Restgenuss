@@ -110,45 +110,64 @@ async function getRandomRecipeId() {
 }
 
 // Funktion, um zufällige Rezept-Buttons anzuzeigen
-// Funktion, um zufällige Rezept-Buttons anzuzeigen
+
 async function displayRandomRecipeButtons() {
   const rezeptVorschlag = document.querySelector("#rezeptVorschlag");
 
-  for (let i = 0; i < 6; i++) {
-    // Eine zufällige Rezept-ID aus der Datenbank abrufen
-    const randomRecipeId = await getRandomRecipeId();
+  // Alle gültigen Rezept-IDs aus der "rezepte"-Tabelle abrufen
+  const { data: allRecipeIds, error: recipeIdsError } = await supa
+    .from("rezepte")
+    .select("id")
+    .order("id");
 
-    if (randomRecipeId) {
-      // Jetzt, da Sie eine zufällige Rezept-ID haben, können Sie die vollständigen Rezeptinformationen damit abrufen
-      const { data: randomRecipe, error: randomRecipeError } = await supa
-        .from("rezepte")
-        .select()
-        .eq("id", randomRecipeId);
+  if (recipeIdsError) {
+    console.error("Fehler beim Abrufen der Rezept-IDs:", recipeIdsError);
+    return;
+  }
 
-      if (!randomRecipeError && randomRecipe && randomRecipe.length > 0) {
-        const recipe = randomRecipe[0];
+  if (allRecipeIds && allRecipeIds.length > 0) {
+    const uniqueRecipeIds = Array.from(new Set(allRecipeIds.map((id) => id.id)));
+
+    // Die eindeutigen Rezept-IDs mischen, um eine zufällige Reihenfolge zu erhalten
+    for (let i = uniqueRecipeIds.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [uniqueRecipeIds[i], uniqueRecipeIds[j]] = [uniqueRecipeIds[j], uniqueRecipeIds[i]];
+    }
+
+    // Die ersten 6 eindeutigen Rezepte anzeigen
+    const randomRecipeIds = uniqueRecipeIds.slice(0, 6);
+
+    randomRecipeIds.forEach(async (id) => {
+      // Details des Rezepts basierend auf der ID abrufen
+      const { data: recipe, error: recipeError } = await supa.from("rezepte").select().eq("id", id);
+
+      if (recipeError) {
+        console.error(`Fehler beim Abrufen des Rezepts mit ID ${id}:`, recipeError);
+      }
+
+      if (recipe && recipe.length > 0) {
+        const recipeData = recipe[0];
+
         const button = document.createElement("button");
         button.className = "box recipe-button";
-        button.setAttribute("data-recipe-id", recipe.id);
-        button.innerHTML = `<h2>${recipe.rezeptname}</h2>`;
+        button.setAttribute("data-recipe-id", recipeData.id);
+        button.innerHTML = `<h2>${recipeData.rezeptname}</h2>`;
 
-        // Ereignislistener, um das Rezept zu öffnen, wenn es angeklickt wird
+        // Eventlistener, um das Rezept zu öffnen, wenn es angeklickt wird
         button.addEventListener("click", () => {
-          rezeptAufrufen(recipe.id);
+          rezeptAufrufen(recipeData.id);
         });
 
         rezeptVorschlag.appendChild(button);
       }
-    }
+    });
   }
 }
 
-// Funktion aufrufen, die beim Laden der Seite 6 zufällige Rezept-Buttons anzeigt
+// Funktion zum Anzeigen zufälliger Rezeptbuttons, wenn die Seite geladen wird
 document.addEventListener("DOMContentLoaded", () => {
   displayRandomRecipeButtons();
 });
-
-
 
 
 
