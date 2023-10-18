@@ -11,7 +11,7 @@ async function kategorienAnzeigen() {
     container.innerHTML = ''; // Leert den Container
     data.forEach(kategorie => {
       let button = document.createElement("button");
-      button.className = "box kategorie-button";
+      button.className = "kategorie-box kategorie-button";
       button.id = `Kategorie-id-${kategorie.id}`;
       button.innerHTML = `<h2>${kategorie.name}</h2>`;
 
