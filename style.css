@@ -46,8 +46,17 @@ p {
 }
 
 h2 {
-  margin-top: 20px;
+  margin-top: 158px;
+  margin-left: -10px;
+  margin-right: -10px;
   color: white;
+  background-color: #EE9C50;
+  padding: 10px;
+}
+
+h3 {
+  margin-top: 20px;
+  color: #2B4A28;
 }
 
 #titel-resteRezepte {
@@ -60,6 +69,7 @@ h2 {
   justify-content: center;
 }
 
+kategorie-box
 
 .box {
   width: calc(33.33% - 20px);
