@@ -159,19 +159,28 @@ async function displayRandomRecipeButtons() {
 
       if (recipe && recipe.length > 0) {
         const recipeData = recipe[0];
-
+      
         const button = document.createElement("button");
         button.className = "box recipe-button";
         button.setAttribute("data-recipe-id", recipeData.id);
-        button.innerHTML = `<h2>${recipeData.rezeptname}</h2>`;
-
-        // Eventlistener, um das Rezept zu öffnen, wenn es angeklickt wird
+      
+        // Set the background image for the button
+        button.style.backgroundImage = `url(${recipeData.bild})`;
+      
+        // Create an <h2> tag for the recipe name and set its text content
+        let h2 = document.createElement("h2");
+        h2.textContent = recipeData.rezeptname;
+      
+        // Append the <h2> tag to the button
+        button.appendChild(h2);
+      
+        // Event listener to open the recipe when clicked
         button.addEventListener("click", () => {
           rezeptAufrufen(recipeData.id);
         });
-
+      
         rezeptVorschlag.appendChild(button);
-      }
+      }      
     });
   }
 }
