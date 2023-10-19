@@ -15,7 +15,7 @@ header {
   text-align: right;
 }
 
-.container {
+#container {
   width: 1350px; /* Breite des Containers */
   height: auto; /* Höhe des Containers */
   margin: 50px auto; /* Horizontale Zentrierung und individuelle Abstände oben/unten */

@@ -25,16 +25,15 @@ async function kategorienAnzeigen() {
       container.appendChild(button);
     });
   }
-
-  // Fügt den "Zurück zur Auswahl" Text hinzu
-  let zurueckText = document.createElement("p");
-  zurueckText.className = "zurueck-text";
-  zurueckText.innerHTML = "Zurück zur Auswahl";
-  zurueckText.addEventListener("click", () => {
-    kategorienAnzeigen();
-  });
-  container.appendChild(zurueckText);
 }
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  if (window.location.pathname === '/index.html') {
+    kategorienAnzeigen();
+  }
+});
+
 
 // Buttons mit den Rezepttiteln anzeigen, die in der angeklickten Kategorie sind
 async function rezepteDerKategorieAnzeigen(kategorie_id) {
@@ -96,92 +95,71 @@ document.addEventListener("DOMContentLoaded", kategorienAnzeigen);
 
 //-------------Anzeigen von zufälligen Rezepten auf der Startseite----------
 
-// Funktion, um eine zufällige Rezept-ID zu erhalten
-async function getRandomRecipeId() {
-  // Fetch all valid recipe IDs from the "rezepte" table
-  const { data: allRecipeIds, error: recipeIdsError } = await supa
-    .from("rezepte")
-    .select("id")
-    .order("id");
-
-  if (recipeIdsError) {
-    console.error("Error fetching recipe IDs:", recipeIdsError);
-    return null;
-  }
-
-  if (allRecipeIds && allRecipeIds.length > 0) {
-    // Generate a random index within the valid range
-    const randomIndex = Math.floor(Math.random() * allRecipeIds.length);
-
-    // Retrieve the recipe ID corresponding to the random index
-    return allRecipeIds[randomIndex].id;
-  }
-
-  return null;
-}
-
 
 // Funktion, um zufällige Rezept-Buttons anzuzeigen
 
 async function displayRandomRecipeButtons() {
   const rezeptVorschlag = document.querySelector("#rezeptVorschlag");
 
-  // Alle gültigen Rezept-IDs aus der "rezepte"-Tabelle abrufen
-  const { data: allRecipeIds, error: recipeIdsError } = await supa
-    .from("rezepte")
-    .select("id")
-    .order("id");
+  if (rezeptVorschlag) {
 
-  if (recipeIdsError) {
-    console.error("Fehler beim Abrufen der Rezept-IDs:", recipeIdsError);
-    return;
-  }
+    // Alle gültigen Rezept-IDs aus der "rezepte"-Tabelle abrufen
+    const { data: allRecipeIds, error: recipeIdsError } = await supa
+      .from("rezepte")
+      .select("id")
+      .order("id");
 
-  if (allRecipeIds && allRecipeIds.length > 0) {
-    const uniqueRecipeIds = Array.from(new Set(allRecipeIds.map((id) => id.id)));
-
-    // Die eindeutigen Rezept-IDs mischen, um eine zufällige Reihenfolge zu erhalten
-    for (let i = uniqueRecipeIds.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [uniqueRecipeIds[i], uniqueRecipeIds[j]] = [uniqueRecipeIds[j], uniqueRecipeIds[i]];
+    if (recipeIdsError) {
+      console.error("Fehler beim Abrufen der Rezept-IDs:", recipeIdsError);
+      return;
     }
 
-    // Die ersten 6 eindeutigen Rezepte anzeigen
-    const randomRecipeIds = uniqueRecipeIds.slice(0, 6);
+    if (allRecipeIds && allRecipeIds.length > 0) {
+      const uniqueRecipeIds = Array.from(new Set(allRecipeIds.map((id) => id.id)));
 
-    randomRecipeIds.forEach(async (id) => {
-      // Details des Rezepts basierend auf der ID abrufen
-      const { data: recipe, error: recipeError } = await supa.from("rezepte").select().eq("id", id);
-
-      if (recipeError) {
-        console.error(`Fehler beim Abrufen des Rezepts mit ID ${id}:`, recipeError);
+      // Die eindeutigen Rezept-IDs mischen, um eine zufällige Reihenfolge zu erhalten
+      for (let i = uniqueRecipeIds.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [uniqueRecipeIds[i], uniqueRecipeIds[j]] = [uniqueRecipeIds[j], uniqueRecipeIds[i]];
       }
 
-      if (recipe && recipe.length > 0) {
-        const recipeData = recipe[0];
-      
-        const button = document.createElement("button");
-        button.className = "box recipe-button";
-        button.setAttribute("data-recipe-id", recipeData.id);
-      
-        // Set the background image for the button
-        button.style.backgroundImage = `url(${recipeData.bild})`;
-      
-        // Create an <h2> tag for the recipe name and set its text content
-        let h2 = document.createElement("h2");
-        h2.textContent = recipeData.rezeptname;
-      
-        // Append the <h2> tag to the button
-        button.appendChild(h2);
-      
-        // Event listener to open the recipe when clicked
-        button.addEventListener("click", () => {
-          rezeptAufrufen(recipeData.id);
-        });
-      
-        rezeptVorschlag.appendChild(button);
-      }      
-    });
+      // Die ersten 6 eindeutigen Rezepte anzeigen
+      const randomRecipeIds = uniqueRecipeIds.slice(0, 6);
+
+      randomRecipeIds.forEach(async (id) => {
+        // Details des Rezepts basierend auf der ID abrufen
+        const { data: recipe, error: recipeError } = await supa.from("rezepte").select().eq("id", id);
+
+        if (recipeError) {
+          console.error(`Fehler beim Abrufen des Rezepts mit ID ${id}:`, recipeError);
+        }
+
+        if (recipe && recipe.length > 0) {
+          const recipeData = recipe[0];
+        
+          const button = document.createElement("button");
+          button.className = "box recipe-button";
+          button.setAttribute("data-recipe-id", recipeData.id);
+        
+          // Set the background image for the button
+          button.style.backgroundImage = `url(${recipeData.bild})`;
+        
+          // Create an <h2> tag for the recipe name and set its text content
+          let h2 = document.createElement("h2");
+          h2.textContent = recipeData.rezeptname;
+        
+          // Append the <h2> tag to the button
+          button.appendChild(h2);
+        
+          // Event listener to open the recipe when clicked
+          button.addEventListener("click", () => {
+            rezeptAufrufen(recipeData.id);
+          });
+        
+          rezeptVorschlag.appendChild(button);
+        }      
+      });
+    }
   }
 }
 
@@ -254,3 +232,58 @@ document.addEventListener("DOMContentLoaded", () => {
 
 //-------------Funktionen fürs Bewerten der Rezepte----------
 
+document.addEventListener("DOMContentLoaded", async () => {
+  // Add an event listener to the "Bewertung abschicken" button
+  const bewertungButton = document.getElementById("bewertungButton");
+  bewertungButton.addEventListener("click", async () => {
+    // Get the selected rating (assumes radio inputs have the same name attribute)
+    const selectedRating = document.querySelector('input[name="rating"]:checked');
+    
+    if (selectedRating) {
+      const ratingValue = parseInt(selectedRating.value);
+
+      // Get the recipe ID from the URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const recipeId = urlParams.get("id");
+
+      // Fetch the current bewertung and anzahl_bewertungen values
+      const { data, error } = await supa.from("rezepte")
+        .select("bewertung, anzahl_bewertungen")
+        .eq("id", recipeId);
+
+      if (error) {
+        console.error("Error fetching recipe data:", error);
+        return;
+      }
+
+      const recipeData = data[0];
+
+      if (recipeData) {
+        // Calculate the new bewertung and anzahl_bewertungen values
+        const currentRating = recipeData.bewertung;
+        const currentRatingsCount = recipeData.anzahl_bewertungen;
+
+        const newRating = ((currentRating * currentRatingsCount) + ratingValue) / (currentRatingsCount + 1);
+        const newRatingsCount = currentRatingsCount + 1;
+
+        // Update the "bewertung" and "anzahl_bewertungen" columns in the Supabase table
+        const { updateError } = await supa.from("rezepte")
+          .update({ bewertung: newRating, anzahl_bewertungen: newRatingsCount })
+          .eq("id", recipeId);
+
+        if (updateError) {
+          console.error("Error updating recipe data:", updateError);
+        } else {
+          // Update the HTML content with the new values
+          const averageRatingElement = document.getElementById("averageRating");
+          const totalRatingsElement = document.getElementById("totalRatings");
+          averageRatingElement.textContent = `${newRating.toFixed(1)}`;
+          totalRatingsElement.textContent = `${newRatingsCount}`;
+        }
+      }
+    } else {
+      // Handle the case where no rating is selected
+      console.error("Please select a rating.");
+    }
+  });
+});
