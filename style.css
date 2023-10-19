@@ -46,13 +46,10 @@ p {
 }
 
 h2 {
-  margin-top: 158px;
-  margin-left: -10px;
-  margin-right: -10px;
-  color: white;
-  background-color: #EE9C50;
-  padding: 10px;
+margin-top: 20px;
+color: white;
 }
+
 
 h3 {
   margin-top: 20px;
@@ -69,7 +66,33 @@ h3 {
   justify-content: center;
 }
 
-kategorie-box
+.box h2 {
+  margin-top: 158px;
+  margin-left: -10px;
+  margin-right: -10px;
+  color: white;
+  background-color: #EE9C50;
+  padding: 10px;
+}
+
+
+.kategorie-box {
+  width: calc(33.33% - 20px);
+  height: 200px;
+  margin: 10px;
+  cursor: pointer;
+  background-color: #EE9C50;
+  border: none;
+  background-size: cover;
+  background-position: center;
+  filter: brightness(1); /* Keep this for the default state */
+  position: relative;
+  overflow: hidden;
+}
+
+.kategorie-box:hover{
+  background-color: #E98223;
+}
 
 .box {
   width: calc(33.33% - 20px);
