@@ -4,39 +4,29 @@ console.log("00 JavaScript verbunden");
 
 // Zeigt alle Kategorien an, soll beim Laden der Startseite ausgeführt werden
 async function kategorienAnzeigen() {
-  if (window.location.pathname === '/index.html') {
-    const { data, error } = await supa.from("kategorien").select();
-    if (data) {
-      console.log(data);
-      let container = document.querySelector("#kategorien");
-      container.innerHTML = ''; // Leert den Container
-      data.forEach(kategorie => {
-        let button = document.createElement("button");
-        button.className = "kategorie-box kategorie-button";
-        button.id = `Kategorie-id-${kategorie.id}`;
-        button.innerHTML = `<h2>${kategorie.name}</h2>`;
+  const { data, error } = await supa.from("kategorien").select();
+  if (data) {
+    console.log(data);
+    let container = document.querySelector("#kategorien");
+    container.innerHTML = ''; // Leert den Container
+    data.forEach(kategorie => {
+      let button = document.createElement("button");
+      button.className = "kategorie-box kategorie-button";
+      button.id = `Kategorie-id-${kategorie.id}`;
+      button.innerHTML = `<h2>${kategorie.name}</h2>`;
 
-        // Fügt einen Klick-Ereignislistener zu jedem Kategorie-Button hinzu
-        button.addEventListener("click", () => {
-          const kategorie_id = kategorie.id;
-          rezepteDerKategorieAnzeigen(kategorie_id);
-          console.log(kategorie_id);
-        });
-
-        container.appendChild(button);
+      // Fügt einen Klick-Ereignislistener zu jedem Kategorie-Button hinzu
+      button.addEventListener("click", () => {
+        const kategorie_id = kategorie.id;
+        rezepteDerKategorieAnzeigen(kategorie_id);
+        console.log(kategorie_id);
       });
-    }
 
-    // Fügt den "Zurück zur Auswahl" Text hinzu
-    let zurueckText = document.createElement("p");
-    zurueckText.className = "zurueck-text";
-    zurueckText.innerHTML = "Zurück zur Auswahl";
-    zurueckText.addEventListener("click", () => {
-      kategorienAnzeigen();
+      container.appendChild(button);
     });
-    container.appendChild(zurueckText);
   }
 }
+
 
 document.addEventListener("DOMContentLoaded", () => {
   if (window.location.pathname === '/index.html') {
@@ -243,29 +233,57 @@ document.addEventListener("DOMContentLoaded", () => {
 //-------------Funktionen fürs Bewerten der Rezepte----------
 
 document.addEventListener("DOMContentLoaded", async () => {
-  // Check if the current page is "rezept.html" based on the URL
-  if (window.location.pathname.endsWith("rezept.html")) {
-    const averageRatingElement = document.getElementById("averageRating");
-    const totalRatingsElement = document.getElementById("totalRatings");
-    const urlParams = new URLSearchParams(window.location.search);
-    const recipeId = urlParams.get("id");
+  // Add an event listener to the "Bewertung abschicken" button
+  const bewertungButton = document.getElementById("bewertungButton");
+  bewertungButton.addEventListener("click", async () => {
+    // Get the selected rating (assumes radio inputs have the same name attribute)
+    const selectedRating = document.querySelector('input[name="rating"]:checked');
+    
+    if (selectedRating) {
+      const ratingValue = parseInt(selectedRating.value);
 
-    // Fetch the bewertung and anzahl_bewertungen based on the recipe ID
-    const { data, error } = await supa.from("rezepte")
-      .select("bewertung, anzahl_bewertungen")
-      .eq("id", recipeId);
+      // Get the recipe ID from the URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const recipeId = urlParams.get("id");
 
-    if (error) {
-      console.error("Error fetching recipe data:", error);
-      return;
+      // Fetch the current bewertung and anzahl_bewertungen values
+      const { data, error } = await supa.from("rezepte")
+        .select("bewertung, anzahl_bewertungen")
+        .eq("id", recipeId);
+
+      if (error) {
+        console.error("Error fetching recipe data:", error);
+        return;
+      }
+
+      const recipeData = data[0];
+
+      if (recipeData) {
+        // Calculate the new bewertung and anzahl_bewertungen values
+        const currentRating = recipeData.bewertung;
+        const currentRatingsCount = recipeData.anzahl_bewertungen;
+
+        const newRating = ((currentRating * currentRatingsCount) + ratingValue) / (currentRatingsCount + 1);
+        const newRatingsCount = currentRatingsCount + 1;
+
+        // Update the "bewertung" and "anzahl_bewertungen" columns in the Supabase table
+        const { updateError } = await supa.from("rezepte")
+          .update({ bewertung: newRating, anzahl_bewertungen: newRatingsCount })
+          .eq("id", recipeId);
+
+        if (updateError) {
+          console.error("Error updating recipe data:", updateError);
+        } else {
+          // Update the HTML content with the new values
+          const averageRatingElement = document.getElementById("averageRating");
+          const totalRatingsElement = document.getElementById("totalRatings");
+          averageRatingElement.textContent = `${newRating.toFixed(1)}`;
+          totalRatingsElement.textContent = `${newRatingsCount}`;
+        }
+      }
+    } else {
+      // Handle the case where no rating is selected
+      console.error("Please select a rating.");
     }
-
-    const recipeData = data[0];
-
-    if (recipeData) {
-      // Update the HTML content of averageRatingElement with the fetched rezeptname and bewertung
-      averageRatingElement.textContent = `${recipeData.bewertung}`;
-      totalRatingsElement.textContent = `${recipeData.anzahl_bewertungen}`;
-    }
-  }
+  });
 });
