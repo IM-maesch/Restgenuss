@@ -254,32 +254,3 @@ document.addEventListener("DOMContentLoaded", () => {
 
 //-------------Funktionen fürs Bewerten der Rezepte----------
 
-// Function to handle rating submission
-function submitRating() {
-  const rating = document.querySelector('input[name="rating"]:checked').value;
-  // You can use Fetch or an AJAX library to send the rating to the server.
-  // Ensure the endpoint handles updating the ratings in the database.
-  // On success, update the average rating and rating count.
-  fetch('/submitRating', {
-    method: 'POST',
-    body: JSON.stringify({ rating }),
-    headers: { 'Content-Type': 'application/json' },
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.success) {
-        // Update the average rating and rating count on the web page.
-        const averageRatingElement = document.querySelector('.average-rating');
-        const ratingCountElement = document.querySelector('.rating-count');
-        averageRatingElement.textContent = data.averageRating;
-        ratingCountElement.textContent = data.ratingCount;
-      }
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
-}
-
-// Attach a click event listener to the submit button
-const submitButton = document.querySelector('button');
-submitButton.addEventListener('click', submitRating);
