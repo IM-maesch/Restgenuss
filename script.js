@@ -173,6 +173,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
 //-------------Generieren der Inhalte auf der Rezeptseite----------
 
+document.addEventListener('DOMContentLoaded', function () {
+  const herzkontur = document.getElementById('herzkontur');
+  const bilder = ['img/Heart_Kontur.svg', 'img/Heart_filled.svg'];
+  let currentIndex = 0;
+
+  herzkontur.addEventListener('click', function () {
+      // Wechsel zum nächsten Bild
+      currentIndex = (currentIndex + 1) % bilder.length;
+      herzkontur.src = bilder[currentIndex];
+  });
+});
+
 // Function to populate the recipe content based on the recipeId
 async function populateRecipeContent(recipeId) {
   const { data, error } = await supa.from("rezepte").select().eq("id", recipeId);
