@@ -29,11 +29,18 @@ header {
 }
 
 
-.content {
+.contenttitel {
   padding: 20px;
   color: #2B4A28;
   margin-left: -10px;
   margin-top:-80px
+}
+
+.content {
+  padding: 20px;
+  color: #2B4A28;
+  margin-left: -10px;
+  margin-top: 0px
 }
 
 h1 {
