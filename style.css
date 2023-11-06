@@ -168,11 +168,31 @@ h3 {
 }
 
 .bewertung input:checked + label {
-  background-color: #f1c40f;
+  background-color: #E98223;
 }
 
 .bewertung input:checked + label:before {
   color: #E7DFD4;
+}
+
+#bewertungButton {
+  width: 200px;
+  height: 40px;
+  background-color: #2B4A28;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#bewertungButton:hover {
+  background-color: #E98223;
+}
+#horizontal-line {
+  width: 100%;
+  border: 1px solid #2B4A28; 
+  margin: 0; /* Den Abstand um das <hr>-Element entfernen */
 }
 
 
@@ -199,6 +219,44 @@ footer li {
   display: inline-block;
   
 }
+
+/* Style für Magic Link Form */
+#magic-link-form {
+  width: 500px;
+  margin: 0;
+  display: flex;
+  text-align: center;
+  grid-gap: 10px;
+  align-items: center;
+}
+
+/* Styles für das E-Mail-Eingabefeld */
+#email {
+  width: 180px;
+  padding: 10px;
+  margin: 10px 0;
+  border: 2px solid #2B4A28;
+  border-radius: 4px;
+  background-color: #E7DFD4;
+}
+
+/* Styles für die Senden-Schaltfläche */
+button[type="submit"] {
+  width: 200px;
+  height: 40px;
+  background-color: #2B4A28;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button[type="submit"]:hover {
+  background-color: #E98223;
+}
+
+
 
 /* Media queries for responsive design */
 @media (max-width: 768px) {

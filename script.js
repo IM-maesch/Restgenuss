@@ -300,3 +300,15 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 });
 
+//-------------Funktionen fürs Magic Link----------
+document.getElementById('magic-link-form').addEventListener('submit', function (e) {
+  e.preventDefault();
+  const email = document.getElementById('email').value;
+
+  // Hier sollten Sie eine AJAX-Anfrage an Ihren Server senden, um den Magic Link zu generieren und per E-Mail zu versenden.
+  // Beispiel: Axios für die AJAX-Anfrage
+  // Beispiel: Axios.post('/send-magic-link', { email: email })
+
+  // Nach dem Versand des Magic Links können Sie eine Erfolgsmeldung anzeigen.
+  alert('Magic Link wurde an Ihre E-Mail-Adresse gesendet.');
+});
