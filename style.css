@@ -116,7 +116,11 @@ h3 {
 }
 
 
-
+.link-style {
+  color: #2B4A28;
+  text-align: center;
+  display: block; 
+}
 
 /*Einzelne Rezeptseite*/
 
