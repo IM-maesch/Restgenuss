@@ -97,7 +97,6 @@ document.addEventListener("DOMContentLoaded", kategorienAnzeigen);
 
 
 // Funktion, um zufällige Rezept-Buttons anzuzeigen
-
 async function displayRandomRecipeButtons() {
   const rezeptVorschlag = document.querySelector("#rezeptVorschlag");
 
@@ -163,7 +162,7 @@ async function displayRandomRecipeButtons() {
   }
 }
 
-// Funktion zum Anzeigen zufälliger Rezeptbuttons, wenn die Seite geladen wird
+// Aufrufen der Funktion zum Anzeigen zufälliger Rezeptbuttons, wenn die Seite geladen wird
 document.addEventListener("DOMContentLoaded", () => {
   displayRandomRecipeButtons();
 });
@@ -173,6 +172,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 //-------------Generieren der Inhalte auf der Rezeptseite----------
 
+// Anzeigen des Favoriten-Herz oben rechts
 document.addEventListener('DOMContentLoaded', function () {
   const herzkontur = document.getElementById('herzkontur');
   const bilder = ['img/Heart_Kontur.svg', 'img/Heart_filled.svg'];
@@ -185,7 +185,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
-// Function to populate the recipe content based on the recipeId
+// Rezept-Anzeigen-Funktion
 async function populateRecipeContent(recipeId) {
   const { data, error } = await supa.from("rezepte").select().eq("id", recipeId);
 
@@ -231,7 +231,7 @@ async function populateRecipeContent(recipeId) {
   }
 }
 
-// Call the function to populate the content when the page loads
+// Aufrufen der Rezept-Anzeigen-Funktion beim Laden der Seite
 document.addEventListener("DOMContentLoaded", () => {
   const urlParams = new URLSearchParams(window.location.search);
   const recipeId = urlParams.get("id");
@@ -244,21 +244,54 @@ document.addEventListener("DOMContentLoaded", () => {
 
 //-------------Funktionen fürs Bewerten der Rezepte----------
 
+//Bewertung beim Laden der Seite anzeigen
 document.addEventListener("DOMContentLoaded", async () => {
-  // Add an event listener to the "Bewertung abschicken" button
+  // Ist die aufgerufene Seite rezept.html?
+  if (window.location.pathname.endsWith("rezept.html")) {
+    const averageRatingElement = document.getElementById("averageRating");
+    const totalRatingsElement = document.getElementById("totalRatings");
+    const urlParams = new URLSearchParams(window.location.search);
+    const recipeId = urlParams.get("id");
+
+    // Abrufen von bewertung und anzahl_bewertung aus der Datenbank
+    const { data, error } = await supa.from("rezepte")
+      .select("bewertung, anzahl_bewertungen")
+      .eq("id", recipeId);
+
+    if (error) {
+      console.error("Error fetching recipe data:", error);
+      return;
+    }
+
+    const recipeData = data[0];
+
+    if (recipeData) {
+      // Runden der durchschnittlichen Bewertung auf eine Nachkommastelle
+      const roundedBewertung = parseFloat(recipeData.bewertung).toFixed(1);
+
+      // Einfügen ins HTML
+      averageRatingElement.textContent = `${roundedBewertung}`;
+      totalRatingsElement.textContent = `${recipeData.anzahl_bewertungen}`;
+    }
+  }
+});
+
+// Bewertung abschicken und aktualisieren
+document.addEventListener("DOMContentLoaded", async () => {
+  // Eventlistener für Bewertung-abschicken-Button
   const bewertungButton = document.getElementById("bewertungButton");
   bewertungButton.addEventListener("click", async () => {
-    // Get the selected rating (assumes radio inputs have the same name attribute)
+    // Abrufen der Bewertungseingabe
     const selectedRating = document.querySelector('input[name="rating"]:checked');
     
     if (selectedRating) {
       const ratingValue = parseInt(selectedRating.value);
 
-      // Get the recipe ID from the URL
+      // Rezept-ID aus der URL holen
       const urlParams = new URLSearchParams(window.location.search);
       const recipeId = urlParams.get("id");
 
-      // Fetch the current bewertung and anzahl_bewertungen values
+      // bewertung und anzahl_bewertung aus der Datenbank holen
       const { data, error } = await supa.from("rezepte")
         .select("bewertung, anzahl_bewertungen")
         .eq("id", recipeId);
@@ -271,14 +304,14 @@ document.addEventListener("DOMContentLoaded", async () => {
       const recipeData = data[0];
 
       if (recipeData) {
-        // Calculate the new bewertung and anzahl_bewertungen values
+        // bewertung und anzahl_bewertung neu berechnen
         const currentRating = recipeData.bewertung;
         const currentRatingsCount = recipeData.anzahl_bewertungen;
 
         const newRating = ((currentRating * currentRatingsCount) + ratingValue) / (currentRatingsCount + 1);
         const newRatingsCount = currentRatingsCount + 1;
 
-        // Update the "bewertung" and "anzahl_bewertungen" columns in the Supabase table
+        // bewertung" und "anzahl_bewertungen" in Supabase aktualisieren
         const { updateError } = await supa.from("rezepte")
           .update({ bewertung: newRating, anzahl_bewertungen: newRatingsCount })
           .eq("id", recipeId);
@@ -286,7 +319,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (updateError) {
           console.error("Error updating recipe data:", updateError);
         } else {
-          // Update the HTML content with the new values
+          // HTML mit den neuen Werten aktualisieren
           const averageRatingElement = document.getElementById("averageRating");
           const totalRatingsElement = document.getElementById("totalRatings");
           averageRatingElement.textContent = `${newRating.toFixed(1)}`;
@@ -294,13 +327,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
       }
     } else {
-      // Handle the case where no rating is selected
+      // Fehlerhandling, wenn keine Bewertung ausgewählt wurde
       console.error("Please select a rating.");
     }
   });
 });
 
-//-------------Funktionen fürs Magic Link----------
+//-------------Funktionen für Magic Link----------
 document.getElementById('magic-link-form').addEventListener('submit', function (e) {
   e.preventDefault();
   const email = document.getElementById('email').value;
