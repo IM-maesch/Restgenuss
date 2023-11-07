@@ -16,10 +16,10 @@ header {
 }
 
 #container {
-  width: 1350px; /* Breite des Containers */
+  width: 100%;
   height: auto; /* Höhe des Containers */
-  margin: 50px auto; /* Horizontale Zentrierung und individuelle Abstände oben/unten */
-  padding: 0px 20px; /* Individuelle Abstände rechts/links oben/unten */
+  margin: 0 auto; /* Horizontale Zentrierung und individuelle Abstände oben/unten */
+  padding: 0; /* Individuelle Abstände rechts/links oben/unten */
 }
 
 
@@ -263,6 +263,14 @@ button[type="submit"]:hover {
   background-color: #E98223;
 }
 
+#favoritenButton {
+  position: absolute; 
+  width: 50px;
+  height: auto;
+  background-color: white;
+  right: 5px;
+  top: 267px;
+}
 
 
 /* Media queries for responsive design */
