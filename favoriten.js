@@ -48,4 +48,36 @@ async function addToFavorites() {
   }
   
 
+        // Daten von Supabase abrufen um in favoriten.html zu implementieren
+
+  const user = supabase.auth.user();
+
+if (user) {
+  const { data, error } = await supabase
+    .from('user_faved_rezept')
+    .select('*')
+    .eq('benutzer_id', user.id);
   
+  if (error) {
+    console.error('Fehler beim Abrufen der favorisierten Rezepte:', error);
+  } else {
+    // Hier kannst du mit den abgerufenen Daten arbeiten (z. B. sie auf deiner Webseite anzeigen)
+    console.log('Favorisierte Rezepte:', data);
+    // Zeige die Rezepte auf deiner Webseite an
+    // Annahme: data enthält die abgerufenen Rezeptdaten
+
+    const rezeptContainer = document.getElementById('rezeptContainer');
+
+data.forEach(rezept => {
+  // Erstelle HTML-Elemente, um die Rezeptdaten anzuzeigen
+  const rezeptElement = document.createElement('div');
+  rezeptElement.innerHTML = `
+    <h2>${rezept.name}</h2>
+    <p>Zutaten: ${rezept.ingredients}</p>
+    <p>Anweisungen: ${rezept.instructions}</p>
+  `;
+  rezeptContainer.appendChild(rezeptElement);
+});
+
+  }
+}
