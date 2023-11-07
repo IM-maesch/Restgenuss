@@ -178,11 +178,11 @@ document.addEventListener('DOMContentLoaded', function () {
   const bilder = ['img/Heart_Kontur.svg', 'img/Heart_filled.svg'];
   let currentIndex = 0;
 
-  herzkontur.addEventListener('click', function () {
+  /*herzkontur.addEventListener('click', function () {
       // Wechsel zum nächsten Bild
       currentIndex = (currentIndex + 1) % bilder.length;
-      herzkontur.src = bilder[currentIndex];
-  });
+      herzkontur.src = bilder[currentIndex]; 
+  }); */
 });
 
 // Rezept-Anzeigen-Funktion
@@ -277,7 +277,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 // Bewertung abschicken und aktualisieren
-document.addEventListener("DOMContentLoaded", async () => {
+/*document.addEventListener("DOMContentLoaded", async () => {
   // Eventlistener für Bewertung-abschicken-Button
   const bewertungButton = document.getElementById("bewertungButton");
   bewertungButton.addEventListener("click", async () => {
@@ -331,18 +331,48 @@ document.addEventListener("DOMContentLoaded", async () => {
       console.error("Please select a rating.");
     }
   });
-});
+}); */
 
 //-------------Funktionen für Magic Link----------
-document.getElementById('magic-link-form').addEventListener('submit', function (e) {
-  e.preventDefault();
-  const email = document.getElementById('email').value;
+// Funktion, um Magic Link zu senden
+async function sendMagicLink() {
+  const email = document.getElementById('emailInput').value;
+  const { error } = await supa.auth.signIn({ email });
+  
+  if (error) {
 
-  // Hier sollten Sie eine AJAX-Anfrage an Ihren Server senden, um den Magic Link zu generieren und per E-Mail zu versenden.
-  // Beispiel: Axios für die AJAX-Anfrage
-  // Beispiel: Axios.post('/send-magic-link', { email: email })
+      console.error("Error sending magic link: ", error.message);
+  } else {
+      alert("Magic link sent to ", email);
+  }
+}
+// Eventlistener für Magic Link Button
+document.getElementById('sendMagicLinkButton').addEventListener('click', sendMagicLink);
 
-  // Nach dem Versand des Magic Links können Sie eine Erfolgsmeldung anzeigen.
-  alert('Magic Link wurde an Ihre E-Mail-Adresse gesendet.');
+// Funktion, um User Status zu aktualisieren
+function updateUserStatus(user) {
+  const userStatusElement = document.getElementById('userStatus');
+  
+  if (user) {
+      userStatusElement.textContent = `Authenticated as: ${user.email}`;
+      console.log(user)
+  } else {
+      userStatusElement.textContent = "Not authenticated.";
+  }
+}
+
+// Prüfe und zeige den initialen User Status an
+const initialUser = supa.auth.user();
+updateUserStatus(initialUser);
+
+// Listener, für Änderungen des Auth Status
+// UserStatus wird aktualisiert, wenn sich der Auth Status ändert
+supa.auth.onAuthStateChange((event, session) => {
+  if (event === "SIGNED_IN") {
+      console.log("User signed in: ", session.user);
+      updateUserStatus(session.user);
+  } else if (event === "SIGNED_OUT") {
+      console.log("User signed out");
+      updateUserStatus(null);
+  }
 });
-
