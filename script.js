@@ -312,3 +312,4 @@ document.getElementById('magic-link-form').addEventListener('submit', function (
   // Nach dem Versand des Magic Links können Sie eine Erfolgsmeldung anzeigen.
   alert('Magic Link wurde an Ihre E-Mail-Adresse gesendet.');
 });
+
