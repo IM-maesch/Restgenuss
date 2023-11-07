@@ -178,11 +178,6 @@ document.addEventListener('DOMContentLoaded', function () {
   const bilder = ['img/Heart_Kontur.svg', 'img/Heart_filled.svg'];
   let currentIndex = 0;
 
-  /*herzkontur.addEventListener('click', function () {
-      // Wechsel zum nächsten Bild
-      currentIndex = (currentIndex + 1) % bilder.length;
-      herzkontur.src = bilder[currentIndex]; 
-  }); */
 });
 
 // Rezept-Anzeigen-Funktion
@@ -276,62 +271,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
-// Bewertung abschicken und aktualisieren
-/*document.addEventListener("DOMContentLoaded", async () => {
-  // Eventlistener für Bewertung-abschicken-Button
-  const bewertungButton = document.getElementById("bewertungButton");
-  bewertungButton.addEventListener("click", async () => {
-    // Abrufen der Bewertungseingabe
-    const selectedRating = document.querySelector('input[name="rating"]:checked');
-    
-    if (selectedRating) {
-      const ratingValue = parseInt(selectedRating.value);
-
-      // Rezept-ID aus der URL holen
-      const urlParams = new URLSearchParams(window.location.search);
-      const recipeId = urlParams.get("id");
-
-      // bewertung und anzahl_bewertung aus der Datenbank holen
-      const { data, error } = await supa.from("rezepte")
-        .select("bewertung, anzahl_bewertungen")
-        .eq("id", recipeId);
-
-      if (error) {
-        console.error("Error fetching recipe data:", error);
-        return;
-      }
-
-      const recipeData = data[0];
-
-      if (recipeData) {
-        // bewertung und anzahl_bewertung neu berechnen
-        const currentRating = recipeData.bewertung;
-        const currentRatingsCount = recipeData.anzahl_bewertungen;
-
-        const newRating = ((currentRating * currentRatingsCount) + ratingValue) / (currentRatingsCount + 1);
-        const newRatingsCount = currentRatingsCount + 1;
-
-        // bewertung" und "anzahl_bewertungen" in Supabase aktualisieren
-        const { updateError } = await supa.from("rezepte")
-          .update({ bewertung: newRating, anzahl_bewertungen: newRatingsCount })
-          .eq("id", recipeId);
-
-        if (updateError) {
-          console.error("Error updating recipe data:", updateError);
-        } else {
-          // HTML mit den neuen Werten aktualisieren
-          const averageRatingElement = document.getElementById("averageRating");
-          const totalRatingsElement = document.getElementById("totalRatings");
-          averageRatingElement.textContent = `${newRating.toFixed(1)}`;
-          totalRatingsElement.textContent = `${newRatingsCount}`;
-        }
-      }
-    } else {
-      // Fehlerhandling, wenn keine Bewertung ausgewählt wurde
-      console.error("Please select a rating.");
-    }
-  });
-}); */
 
 //-------------Funktionen für Magic Link----------
 // Funktion, um Magic Link zu senden
@@ -354,7 +293,7 @@ function updateUserStatus(user) {
   const userStatusElement = document.getElementById('userStatus');
   
   if (user) {
-      userStatusElement.textContent = `Authenticated as: ${user.email}`;
+      userStatusElement.textContent = `Authenticated as: ${user.id}`;
       console.log(user)
   } else {
       userStatusElement.textContent = "Not authenticated.";
