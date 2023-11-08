@@ -84,6 +84,8 @@ if (user) {
 fav.addEventListener("click", addToFavorites);
 */
 
+
+/*
 import { supa } from "/supabase.js";
 
 // Beispiel: Überprüfen, ob der Benutzer eingeloggt ist
@@ -175,3 +177,82 @@ if (user) {
 }
 
 fav.addEventListener("click", addToFavorites);
+*/
+
+
+
+
+import { supa } from "/supabase.js";
+
+// Beispiel: Überprüfen, ob der Benutzer eingeloggt ist
+const user = supa.auth.user();
+
+if (!user) {
+  alert("Bitte zuerst einloggen.");
+} else {
+  document.getElementById('userStatus').textContent = `Authenticated as: ${user.id}`;
+}
+
+// Funktion, um zur Rezeptseite zu gelangen
+function rezeptAufrufen(recipeId) {
+  window.location.href = `rezept.html?id=${recipeId}`;
+}
+
+// Funktion, um ein Rezept basierend auf seiner ID abzurufen
+async function getRezeptByID(rezeptID) {
+  const { data, error } = await supa.from('rezepte').select('rezeptname, bild').eq('id', rezeptID);
+
+  if (error) {
+    console.error('Fehler beim Abrufen des Rezepts:', error);
+    return null;
+  }
+
+  if (data.length > 0) {
+    return data[0];
+  } else {
+    return null;
+  }
+}
+
+// Funktion zum Anzeigen der favorisierten Rezepte
+async function anzeigenFavorisierteRezepte() {
+  if (user) {
+    const { data, error } = await supa
+      .from('user_faved_rezept')
+      .select('rezept_id')
+      .eq('user_id', user.id);
+
+    if (error) {
+      console.error('Fehler beim Abrufen der favorisierten Rezepte:', error);
+    } else {
+      const rezeptContainer = document.getElementById('rezeptContainer');
+
+      // Iteriere über die abgerufenen Rezept-IDs
+      data.forEach(async (favedRezept) => {
+        const rezeptData = await getRezeptByID(favedRezept.rezept_id);
+
+        if (rezeptData) {
+          // Erstelle HTML-Elemente, um die Rezeptdaten anzuzeigen und den Link zur Rezeptseite
+          const rezeptElement = document.createElement('div');
+          const rezeptLink = document.createElement('a');
+          rezeptLink.href = `rezept.html?id=${rezeptData.id}`; // Hier die URL zur Rezeptseite eintragen
+          rezeptLink.textContent = rezeptData.rezeptname;
+          rezeptLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            rezeptAufrufen(rezeptData.id);
+          });
+          // Füge das Rezeptbild hinzu
+          const rezeptBild = document.createElement('img');
+          rezeptBild.src = rezeptData.bild_url;
+          rezeptBild.alt = rezeptData.rezeptname;
+
+          rezeptLink.appendChild(rezeptBild);
+          rezeptElement.appendChild(rezeptLink);
+          rezeptContainer.appendChild(rezeptElement);
+        }
+      });
+    }
+  }
+}
+
+anzeigenFavorisierteRezepte();

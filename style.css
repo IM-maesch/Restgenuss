@@ -273,6 +273,64 @@ button[type="submit"]:hover {
 }
 
 
+/* Stil für die Rezept-Boxen auf der Favoriten-Seite */
+.favoritenRezepte {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px; /* Abstand nach oben hinzufügen */
+}
+
+/* Stil für die Rezept-Boxen auf der Favoriten-Seite */
+.favoritenRezepte .box {
+  width: calc(33.33% - 20px);
+  height: 200px;
+  margin: 10px;
+  cursor: pointer;
+  background-color: #EE9C50;
+  border: none;
+  background-size: cover;
+  background-position: center;
+  filter: brightness(1);
+  position: relative;
+  overflow: hidden;
+}
+
+.favoritenRezepte .box:hover {
+  background-color: #E98223;
+  filter: brightness(0.8);
+  transition: filter 0.3s;
+}
+
+/* Stil für den Text innerhalb der Rezept-Boxen auf der Favoriten-Seite */
+.favoritenRezepte .box h2 {
+  margin-top: 158px;
+  margin-left: -10px;
+  margin-right: -10px;
+  color: white;
+  background-color: #EE9C50;
+  padding: 10px;
+}
+
+/* Stil für den "Zurück zur Auswahl" Text auf der Favoriten-Seite */
+.favoritenRezepte .zurueck-text {
+  margin-top: 158px;
+  margin-left: -10px;
+  margin-right: -10px;
+  color: white;
+  background-color: #EE9C50;
+  padding: 10px;
+}
+
+/* Stil für den "Zurück zur Auswahl" Text auf Hover */
+.favoritenRezepte .zurueck-text:hover {
+  background-color: #E98223;
+  filter: brightness(0.8);
+  transition: filter 0.3s;
+}
+
+
+
 /* Media queries for responsive design */
 @media (max-width: 768px) {
     .box {
