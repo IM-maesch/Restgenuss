@@ -12,3 +12,22 @@ const supa = supabase.createClient(supabaseUrl, supabaseKey, {
 });
 
 export { supa }
+
+
+
+// Funktion, um ein Rezept basierend auf seiner ID abzurufen
+async function getRezeptByID(rezeptID) {
+    const { data, error } = await supa.from('rezepte').select('rezeptname').eq('id', rezeptID);
+  
+    if (error) {
+      console.error('Fehler beim Abrufen des Rezepts:', error);
+      return null;
+    }
+  
+    if (data.length > 0) {
+      return data[0];
+    } else {
+      return null;
+    }
+  }
+  
