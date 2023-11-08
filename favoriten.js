@@ -1,9 +1,11 @@
 import { supa } from "/supabase.js";
 
-herzkontur.addEventListener('click', function () {
+const fav = document.getElementById("favoritenButton");
+
+fav.addEventListener('click', function () {
       // Wechsel zum nächsten Bild
       currentIndex = (currentIndex + 1) % bilder.length;
-      herzkontur.src = bilder[currentIndex]; 
+      favoritenButton.src = bilder[currentIndex]; 
   }); 
 
   // Beispiel: Überprüfen, ob der Benutzer eingeloggt ist
@@ -20,11 +22,13 @@ favoritenButton.addEventListener("click", addToFavorites);
 
 async function addToFavorites() {
     const user = supa.auth.user();
-    console.log("hello")
+    console.log("Benutzer-ID:", user.id)
 
     if (!user) {
       alert("Bitte zuerst einloggen.");
       return;
+    } else {
+      document.getElementById('userStatus').textContent = `Authenticated as: ${user.id}`
     }
   
 
@@ -53,8 +57,9 @@ async function addToFavorites() {
 if (user) {
   const { data, error } = await supa
     .from('user_faved_rezept')
-    .select('*')
-    .eq('benutzer_id', user.id);
+    .select('rezept_id')
+    .eq('benutzer_id', user.id)
+    .single();
   
   if (error) {
     console.error('Fehler beim Abrufen der favorisierten Rezepte:', error);
