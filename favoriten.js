@@ -66,15 +66,15 @@ if (user) {
     
     // Annahme: data enthält die abgerufenen Rezeptdaten
     const rezeptContainer = document.getElementById('rezeptContainer');
+    
+    let rezept = data[0].rezept_id;
+    console.log(rezept);
 
     data.forEach(rezept => {
       // Erstelle HTML-Elemente, um die Rezeptdaten anzuzeigen
   const rezeptElement = document.createElement('div');
-  rezeptElement.innerHTML = `
-  <h2>${rezept.name}</h2>
-  <p>Zutaten: ${rezept.ingredients}</p>
-  <p>Anweisungen: ${rezept.instructions}</p>
-  `;
+  
+  rezeptElement.innerHTML = `<h2>${rezept.rezeptname}</h2>`;
   rezeptContainer.appendChild(rezeptElement);
 });
 
