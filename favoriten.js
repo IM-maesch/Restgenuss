@@ -1,7 +1,7 @@
-/*import { supa } from "/supabase.js";
+import { supa } from "/supabase.js";
 
 
-
+/*
 // Beispiel: Überprüfen, ob der Benutzer eingeloggt ist
 const user = supa.auth.user();
 
@@ -82,12 +82,10 @@ if (user) {
 }
 
 fav.addEventListener("click", addToFavorites);
-*/
+
 
 
 /*
-import { supa } from "/supabase.js";
-
 // Beispiel: Überprüfen, ob der Benutzer eingeloggt ist
 const user = supa.auth.user();
 
@@ -146,6 +144,8 @@ async function addToFavorites() {
   }
 }
 
+
+
 // Daten von Supabase abrufen, um in favoriten.html zu implementieren
 if (user) {
   const { data, error } = await supa
@@ -181,8 +181,6 @@ fav.addEventListener("click", addToFavorites);
 
 
 
-
-import { supa } from "/supabase.js";
 
 // Beispiel: Überprüfen, ob der Benutzer eingeloggt ist
 const user = supa.auth.user();
