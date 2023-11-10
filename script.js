@@ -276,3 +276,6 @@ supa.auth.onAuthStateChange((event, session) => {
       updateUserStatus(null);
   }
 });
+
+
+//http://resteverwerten:3000/ (URL, die zuvor bei Supabase hinterlegt war)

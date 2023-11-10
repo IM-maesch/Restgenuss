@@ -1,6 +1,6 @@
 # Kurzreflexion „Restgenuss“  
 
-Während den letzten Wochen haben wir intensiv an unserer Webapp “Restgenuss” gearbeitet. Bereits während dem Ideenfindungsprozess haben wir immer wieder mit chatGBT gearbeitet. Für das UX-Design nutzen wir zudem Pinterest als Inspirationsquelle. Anschliessend haben wir folgende Quellen für die Programmierung der Webapp genutzt: Codeium, ChatGBT, Stackoverflow, W3school, Dozierende 😊 
+Während den letzten Wochen haben wir intensiv an unserer Webapp “Restgenuss” gearbeitet. Bereits während dem Ideenfindungsprozess haben wir immer wieder mit chatGPT gearbeitet. Für das UX-Design nutzen wir zudem Pinterest als Inspirationsquelle. Anschliessend haben wir folgende Quellen für die Programmierung der Webapp genutzt: Codeium, ChatGPT, Stackoverflow, W3school, Dozierende 😊 
 
 In der Anfangsphase mussten wir uns mit den von uns noch nie verwendeten Programmen Supabase und Figma vertraut machen. Als wir merkten, dass Supabase uns unsere Arbeit erleichtern wird, waren wir begeistert.  
 

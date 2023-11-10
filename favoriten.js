@@ -202,7 +202,7 @@ if(fav){
 
     async function addToFavorites() {
       const user = supa.auth.user();
-      console.log("Benutzer-ID:", user.id)    
+      console.log("Benutzer-ID:", user.id);    
 
       console.log("Benutzer-ID:", user.id);
       const urlParams = new URLSearchParams(window.location.search);
@@ -223,7 +223,7 @@ if(fav){
       }
     }
 
-            // Daten von Supabase abrufen um in favoriten.html zu implementieren
+ // Daten von Supabase abrufen um in favoriten.html zu implementieren
         
 if (user) {
   const { data, error } = await supa
@@ -236,6 +236,7 @@ if (user) {
   } else {
     // Hier kannst du mit den abgerufenen Daten arbeiten (z. B. sie auf deiner Webseite anzeigen)
     console.log('Favorisierte Rezepte:', data);
+
     // Zeige die Rezepte auf deiner Webseite an
   }
 }
@@ -243,7 +244,7 @@ if (user) {
     // Annahme: data enthält die abgerufenen Rezeptdaten
     const rezeptContainer = document.getElementById('rezeptContainer');
    
-  fav.addEventListener("click", addToFavorites);
+  
 
 
 // Funktion, um zur Rezeptseite zu gelangen
@@ -253,7 +254,7 @@ function rezeptAufrufen(recipeId) {
 
 // Funktion, um ein Rezept basierend auf seiner ID abzurufen
 async function getRezeptByID(rezeptID) {
-  const { data, error } = await supa.from('rezepte').select('rezeptname, bild').eq('id', rezeptID);
+  const { data, error } = await supa.from('rezepte').select('*').eq('id', rezeptID);
 
   if (error) {
     console.error('Fehler beim Abrufen des Rezepts:', error);
@@ -279,29 +280,36 @@ async function anzeigenFavorisierteRezepte() {
       console.error('Fehler beim Abrufen der favorisierten Rezepte:', error);
     } else {
       const rezeptContainer = document.getElementById('rezeptContainer');
+      
+      // Remove duplicates based on rezept_id
+      const uniqueRecipes = [...new Set(data.map(item => item.rezept_id))];
 
-      // Iteriere über die abgerufenen Rezept-IDs
-      data.forEach(async (favedRezept) => {
-        const rezeptData = await getRezeptByID(favedRezept.rezept_id);
+      // Iteriere über die abgerufenen, eindeutigen Rezept-IDs
+      uniqueRecipes.forEach(async (rezeptId) => {
+        const rezeptData = await getRezeptByID(rezeptId);
 
         if (rezeptData) {
-          // Erstelle HTML-Elemente, um die Rezeptdaten anzuzeigen und den Link zur Rezeptseite
-          const rezeptElement = document.createElement('div');
-          const rezeptLink = document.createElement('a');
-          rezeptLink.href = `rezept.html?id=${rezeptData.id}`; // Hier die URL zur Rezeptseite eintragen
-          rezeptLink.textContent = rezeptData.rezeptname;
-          rezeptLink.addEventListener('click', (e) => {
-            e.preventDefault();
+          // Erstelle HTML-Elemente, um die Rezeptdaten anzuzeigen und den Button zur Rezeptseite
+          const rezeptButton = document.createElement('button');
+          rezeptButton.className = 'box';
+          rezeptButton.setAttribute('data-recipe-id', rezeptData.id);
+          
+          // Set the background image for the button
+          rezeptButton.style.backgroundImage = `url(${rezeptData.bild})`;
+
+          // Create an <h2> tag for the recipe name and set its text content
+          const h2 = document.createElement('h2');
+          h2.textContent = rezeptData.rezeptname;
+
+          // Füge einen Klick-Ereignislistener zum Button hinzu
+          rezeptButton.addEventListener('click', () => {
             rezeptAufrufen(rezeptData.id);
           });
-          // Füge das Rezeptbild hinzu
-          const rezeptBild = document.createElement('img');
-          rezeptBild.src = rezeptData.bild_url;
-          rezeptBild.alt = rezeptData.rezeptname;
 
-          rezeptLink.appendChild(rezeptBild);
-          rezeptElement.appendChild(rezeptLink);
-          rezeptContainer.appendChild(rezeptElement);
+          // Append the <h2> tag to the button
+          rezeptButton.appendChild(h2);
+
+          rezeptContainer.appendChild(rezeptButton);
         }
       });
     }
@@ -309,3 +317,11 @@ async function anzeigenFavorisierteRezepte() {
 }
 
 anzeigenFavorisierteRezepte();
+
+
+
+
+
+
+
+fav.addEventListener("click", addToFavorites);
